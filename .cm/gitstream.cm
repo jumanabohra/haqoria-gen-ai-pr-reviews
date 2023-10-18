@@ -22,6 +22,14 @@ automations:
       - action: explain-code-experts@v1 
         args:
           gt: 10 
+
+  small_change:
+    if:
+      - {{ files | match(term='README.md') }}
+    run:
+      - action: approve@v1
 # The next function calculates the estimated time to review and makes it available in the automation above.
 calc:
   etr: {{ branch | estimatedReviewTime }}
+
+
