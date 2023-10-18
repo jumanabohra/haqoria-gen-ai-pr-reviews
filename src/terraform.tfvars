@@ -1,12 +1,12 @@
-  {
-    branch_protection  = true //optional
-    protected_branches = "release-*" //optional
-    allow_merge_commit = true //optional
-	topics 			   = ["quath"] //optionl - can be used to search / like hashtag
-    team_permissions = [ //optional but recommended - maybe hint if this doesn't exist?
+function repository {
+    repo_name          = "hackathon"
+    branch_protection  = false
+    allow_merge_commit = true
+    topics             = ["haqoria"]
+    team_permissions = [
       {
-        team_id    = "sq_mobile_cloud_filtering",
+        team_id    = "sq_hackathon",
         permission = "dependabot.viewer"
       }
     ]
-  }
+  },
