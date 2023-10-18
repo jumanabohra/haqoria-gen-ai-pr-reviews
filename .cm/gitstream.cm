@@ -29,7 +29,7 @@ automations:
     run:
       - action: approve@v1
   
-   catch_missing_lambda_info:
+  catch_missing_lambda_info:
     # Triggered for new Lambda functions that are missing a description field.
     if:
       - {{ source.diff.files | matchDiffLines(regex=r/repository/) | some }}
