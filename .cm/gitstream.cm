@@ -28,6 +28,22 @@ automations:
       - {{ files | match(term='README.md') }}
     run:
       - action: approve@v1
+  
+   catch_missing_lambda_info:
+    # Triggered for new Lambda functions that are missing a description field.
+    if:
+      - {{ source.diff.files | matchDiffLines(regex=r/repository/) | some }}
+      - {{ source.diff.files | matchDiffLines(regex=r/description:/) | nope }}
+    # Apply the lambda-missing-field label and request changes to the PR.
+    run:
+      - action: add-label@v1
+        args:
+          label: 'lambda-missing-field'
+          color: '#FF0000'
+      - action: request-changes@v1
+        args:
+          comment: |
+            New `LambdaFunction` must have `description:` field.
 
   percent_new_code:
     if:
@@ -45,7 +61,7 @@ changes:
   deletions: {{ branch.diff.files_metadata | map(attr='deletions') | sum }}
   # Calculate the ratio of new code
   ratio: {{ (changes.additions / (changes.additions + changes.deletions)) * 100 | round(2) }}
-  
+
 # The next function calculates the estimated time to review and makes it available in the automation above.
 calc:
   etr: {{ branch | estimatedReviewTime }}
