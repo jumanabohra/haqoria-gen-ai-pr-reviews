@@ -37,6 +37,20 @@ automations:
           comment: |
             New `RepositoryFunction` must have `description:` field.
 
+  additional_review_for_large_pr:
+    if:
+      - {{ branch | estimatedReviewTime >= 1 }}
+      - {{ files | length >= 5 }}
+      - {{ files | match(regex=r/src\//) | some }}
+    run:
+      - action: set-required-approvals@v1
+        args:
+          approvals: 2
+      - action: add-comment@v1
+        args:
+          comment: |
+            This PR is a large change and requires 2 reviews.
+
   welcome_newcomer:
     if: 
       - {{ repo.contributors | isFirstCommit(branch.author) }}
