@@ -37,6 +37,13 @@ automations:
           comment: |
             New `RepositoryFunction` must have `description:` field.
 
+  welcome_newcomer:
+    if: 
+      - {{ repo.contributors | isFirstCommit(branch.author) }}
+    run: 
+      - action: add-comment@v1
+        args:
+          comment: Welcome {{branch.author}}!
 
   percent_new_code:
     if:
