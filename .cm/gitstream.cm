@@ -40,7 +40,7 @@ automations:
   additional_review_for_large_pr:
     if:
       - {{ branch | estimatedReviewTime >= 1 }}
-      - {{ files | length >= 5 }}
+      - {{ files | length >= 2 }}
       - {{ files | match(regex=r/src\//) | some }}
     run:
       - action: set-required-approvals@v1
@@ -50,6 +50,25 @@ automations:
         args:
           comment: |
             This PR is a large change and requires 2 reviews.
+      - action: add-label@v1
+        args:
+          label: 'large-pr'
+          color: '#FF0000'
+
+  assign_code_experts:
+    # Triggered when someone applies a suggest-reviewer label to a PR.
+    if: 
+      - {{ pr.labels | match(term='suggest-reviewer') | some }}
+    # More info about code experts
+    # https://docs.gitstream.cm/filter-functions/#codeexperts
+    run:
+      - action: add-reviewers@v1
+        args:
+          reviewers: {{ repo | codeExperts(gt=1) }}
+      - action: explain-code-experts@v1 
+        args:
+          gt: 1
+
 
   welcome_newcomer:
     if: 
