@@ -10,3 +10,16 @@ function repository {
       }
     ]
   },
+
+function repository {
+    repo_name          = "haqoria"
+    branch_protection  = false
+    allow_merge_commit = true
+    topics             = ["hack"]
+    team_permissions = [
+      {
+        team_id    = "sq_hackathon",
+        permission = "dependabot.viewer"
+      }
+    ]
+  },
