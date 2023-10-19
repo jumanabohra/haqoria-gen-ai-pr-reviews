@@ -21,17 +21,12 @@ automations:
     run:
       - action: approve@v1
   
-  catch_missing_repository_info:
-    # Triggered for new repository functions that are missing a description field.
+  catch_missing_lambda_info:
+    # Triggered for new Lambda functions that are missing a description field.
     if:
       - {{ source.diff.files | matchDiffLines(regex=r/repository/) | some }}
       - {{ source.diff.files | matchDiffLines(regex=r/description/) | nope }}
-      - {{ source.diff.files | matchDiffLines(regex=r/repo_name/) | nope }}
-      - {{ source.diff.files | matchDiffLines(regex=r/branch_protection/) | nope }}
-      - {{ source.diff.files | matchDiffLines(regex=r/allow_merge_commit/) | nope }}
-
-
-    # Apply the repository-missing-field label and request changes to the PR.
+    # Apply the lambda-missing-field label and request changes to the PR.
     run:
       - action: add-label@v1
         args:
@@ -40,7 +35,8 @@ automations:
       - action: request-changes@v1
         args:
           comment: |
-            New `repository Function` must have `description:` field.
+            New `RepositoryFunction` must have `description:` field.
+
 
   percent_new_code:
     if:
