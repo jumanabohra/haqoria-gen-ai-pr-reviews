@@ -1,5 +1,6 @@
 function repository {
     repo_name          = "hackathon"
+    description        = "That is a public hackathon repository"
     branch_protection  = false
     allow_merge_commit = true
     topics             = ["haqoria"]
@@ -10,3 +11,8 @@ function repository {
       }
     ]
   },
+
+
+function def {
+  echo ("Checking large PRs")
+}
