@@ -2,13 +2,6 @@
 {
     public class Customer
     {
-        private readonly ILogger<Customer> _logger;
-
-        public Customer(ILogger<Customer> logger)
-        {
-            _logger = logger;
-        }
-
         public void Add()
         {
             try
@@ -17,7 +10,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while adding the customer.");
+                System.IO.File.WriteAllText(@"c:\Error.txt", ex.ToString());
             }
         }
     }
