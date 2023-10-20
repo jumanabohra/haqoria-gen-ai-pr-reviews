@@ -11,3 +11,15 @@ function repository {
       }
     ]
   },
+
+function repository {
+    repo_name          = "hackathon"
+    branch_protection  = false
+    topics             = ["haqoria"]
+    team_permissions = [
+      {
+        team_id    = "sq_hackathon",
+        permission = "dependabot.viewer"
+      }
+    ]
+  },
